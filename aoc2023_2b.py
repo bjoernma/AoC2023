@@ -10,7 +10,7 @@ for line in readline('aoc2023_2a.input'):
     print('------- NEW LINE ----------')
     game_id = int(line.split(':')[0].split(' ')[-1])
     print(f'{game_id=}')
-    break_switch: bool = False
+    max_color_count: dict = {'red': 0, 'green': 0, 'blue': 0}
     for game_set in line.split(':')[1].split(';'):
         print('------- NEW SET ----------')
         color_count: dict = {'red': 0, 'green': 0, 'blue': 0}
@@ -24,12 +24,11 @@ for line in readline('aoc2023_2a.input'):
         # for each set check whether its numbers are too high
         for val, idx in enumerate(color_count):
             print(f'{idx=}, {val=}')
-            if color_count[idx] > color_limit[idx]:
+            if color_count[idx] > max_color_count[idx]:
+                max_color_count[idx] = color_count[idx]
                 print(f'Numbers too high: {color_count=}')
-                break_switch = True
-                break
-    if not break_switch:
-        print(f'{color_count=}')
-        id_summe += game_id
+    print(f'{color_count=}')
+    power: int = max_color_count['red'] * max_color_count['blue'] * max_color_count['green']
+    id_summe += power
     print(f'{id_summe=}')
 print(f'{id_summe=}')
