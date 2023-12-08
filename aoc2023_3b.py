@@ -8,46 +8,45 @@ def find_symbol(data:np.full, line_counter: int, start_index:int, end_index:int,
     max_char_counter = int(max_char_counter) - 1
     print(f'{max_line_counter=}, {max_char_counter=}')
     print(f'{line_counter=}, {start_index_current_number=}, {end_index_current_number=}')
-    not_symbol_tuple: tuple = ('0','1','2','3','4','5','6','7','8','9','','.')
 
     # rund um start_index
     print(f'{line_counter=}, {start_index=}')
     print(data)
-    if ((line_counter > 0) and (data[line_counter-1][start_index] not in not_symbol_tuple)):
+    if ((line_counter > 0) and (data[line_counter-1][start_index] in ('*'))):
         print('opt 1a')
         return True
-    if ((line_counter < max_line_counter) and (data[line_counter+1][start_index] not in not_symbol_tuple)):
+    if ((line_counter < max_line_counter) and (data[line_counter+1][start_index] in ('*'))):
         print('opt 1')
         return True
     if start_index > 0:
-        if (line_counter > 0 and data[line_counter-1][start_index-1] not in not_symbol_tuple):
+        if (line_counter > 0 and data[line_counter-1][start_index-1] in ('*')):
             print('opt 2a')
             return True
-        if (data[line_counter][start_index-1] not in not_symbol_tuple):
+        if (data[line_counter][start_index-1] in ('*')):
             print('opt 2b')
             return True
-        if (line_counter < max_line_counter and data[line_counter+1][start_index-1] not in not_symbol_tuple):
+        if (line_counter < max_line_counter and data[line_counter+1][start_index-1] in ('*')):
             print('opt 2c')
             return True
 
 
     # rund um end_index
     print(f'around end index. {line_counter=}, {end_index=}, {data[line_counter-1][end_index]=}')
-    if (line_counter > 0 and data[line_counter-1][end_index] not in not_symbol_tuple):
+    if (line_counter > 0 and data[line_counter-1][end_index] in ('*')):
         print('opt 3a')
         return True
-    if (line_counter < max_line_counter and data[line_counter+1][end_index] not in not_symbol_tuple):
+    if (line_counter < max_line_counter and data[line_counter+1][end_index] in ('*')):
         print('opt 3b')
         return True
 #    print(f'around end index. {line_counter=}, {end_index=}, {max_char_counter=}, {data[line_counter+1][end_index+1]=}')
     if end_index < max_char_counter:
-        if ((line_counter > 0) and (data[line_counter-1][end_index+1] not in not_symbol_tuple)):
+        if ((line_counter > 0) and (data[line_counter-1][end_index+1] in ('*'))):
             print('opt 4a')
             return True
-        if (data[line_counter][end_index+1] not in not_symbol_tuple):
+        if (data[line_counter][end_index+1] in ('*')):
             print('opt 4b')
             return True
-        if (line_counter < max_line_counter and data[line_counter+1][end_index+1] not in not_symbol_tuple):
+        if (line_counter < max_line_counter and data[line_counter+1][end_index+1] in ('*')):
             print('opt 4')
             return True
 
@@ -56,17 +55,17 @@ def find_symbol(data:np.full, line_counter: int, start_index:int, end_index:int,
     # Mitte
     if abs(end_index - start_index) > 1:
         for i in range(start_index, end_index+1):
-            if line_counter > 0 and data[line_counter-1][i] not in not_symbol_tuple:
+            if line_counter > 0 and data[line_counter-1][i] in ('*'):
                 print('opt 5')
                 return True
-            if line_counter < max_line_counter and data[line_counter+1][i] not in not_symbol_tuple:
+            if line_counter < max_line_counter and data[line_counter+1][i] in ('*'):
                 print('opt 6')
                 return True
     print('opt 7')
     return False
     
-filename: str = 'aoc2023_3a.test'
 filename: str = 'aoc2023_3a.input'  # 408025 is too low, 421765 is too low, 506727 is too low. 509115 somehow works now.
+filename: str = 'aoc2023_3a.test'
 max_line_counter: int = 0
 max_char_counter: int = 0
 for line in open(filename, 'r'):
@@ -112,7 +111,7 @@ for line in data:
         else:  # nicht der erste Buchstabe
             if char in ('0','1','2','3','4','5','6','7','8','9'):
                 current_number += str(char)
-                if data[line_counter][char_counter-1] not in ('0','1','2','3','4','5','6','7','8','9'):
+                if data[line_counter][char_counter-1] in ('*'):
                     print('in symbol')
                     start_index_current_number = char_counter 
                     end_index_current_number = char_counter
